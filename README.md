@@ -17,15 +17,11 @@ How visual searching work in e-commerce ([Source](https://medium.com/@virtua/vis
 Deep Metric Learning (DML) aims to learn a function mapping images, often in the shape of 3D arrays, into a one-dimension feature space. The learnt function should output low-distance feature vectors with respect to visually similar input images, and vice versa. Classification-based losses are usually used to train a DML model from scratch before switching to time-consuming metric learning losses [1](https://arxiv.org/abs/1811.12649). Hence, for the purpose of demo, here I use a classification-based training method [in this paper](https://arxiv.org/abs/1811.12649) to train my model.
 
 ## Object Detection
-Object detection is one of the most interesting task in computer vision. It not only detects the location of the objects in a given image, but also classify them into pre-defined categories. In real-life visual search, we may often deal with images containing so much background, and the results of the DML model consequencely could be bad. Taking out the main object in an image, which can be done by a good object detection, can help improve the searching results in these cases. Therefore, apart from a DML model, I also employ a YOLO model for object detection task. I used a pretrained yolo_v3 model from [this repo](https://github.com/simaiden/Clothing-Detection)
+Object detection is one of the most interesting task in computer vision. It not only detects the location of the objects in a given image, but also classify them into pre-defined categories. In real-life visual search, we may often deal with images containing so much background, and the results of the DML model consequencely could be bad. Taking out the main object in an image, which can be done by a good object detection, can help improve the searching results in these cases.
 
+## This project
 
-Trong project này, tui sẽ train và demo một cái UI đơn giản về visual search, dùng deep metric learning và yolov3. Do scope của e-commerce là rất lớn, nên ở level demo, tui chỉ cover data quần áo, yolov3 tui cũng dùng pretrained model đã train trên data quần áo.
-
-Why object detection here ? Vì nhận thấy search bằng full ảnh cho kết quả ko chính xác, nếu dùng object detection tìm object chính trong ảnh sẽ cho kq chính xác hơn. Cũng do đó, tui sẽ demo ở 2 mức: mức full ảnh và mức object detect đc từ ảnh.
-
-Code và weight của YoloV3 tui kế thừa từ đây.
-Tui cũng fork và edit code DML từ great project này.
+In this project, I demonstrated a simple visual search system in e-commerce, using deep metric learning and object detection models. For the sake of demonstration, I used datasets consisting of clothing items only, other products might be applied similarly. I trained a DML model using a classification-based method. The training codes were forked and edited from [this repo] (https://github.com/azgo14/classification_metric_learning). Moreover, to handle the noise cases mentioned above, I also employ a pretrained yolo_v3 model, which were trained on fashion items from [this repo] (https://github.com/simaiden/Clothing-Detection) . There are hence 2 types of searching results: image-based and item-based. You can see some screenshots below.
 
 
 # 2. Datasets
