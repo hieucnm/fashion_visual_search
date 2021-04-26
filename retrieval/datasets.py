@@ -6,17 +6,12 @@ import torch
 from torch.utils.data import Dataset
 from PIL import Image
 
-# import matplotlib.pyplot as plt
-# pieplot_kw = {'autopct' : '%1.1f%%', 'shadow' : True, 'startangle' : 90}    
-
 class TikiDataset(Dataset):
     
     def __init__(self, csv_path, transform=None):
         self.csv_path = csv_path
         self.transform = transform
-        
-        self.data = pd.read_csv(self.csv_path)       
-        self.filter_data()
+        self.data = pd.read_csv(self.csv_path)
         
         # self.n_class = self.data.item_id.max() + 1
         self.targets = self.data.item_id
@@ -72,15 +67,50 @@ class TikiDataset(Dataset):
         self.gallery = [tuple(x) for x in self.data[['fname', 'item_id']].values]
         pass
     
+    def use_all_items_as_query_gallery(self):
+        self.query = [tuple(x) for x in self.data[['fname', 'item_id']].values]
+        self.gallery = [tuple(x) for x in self.data[['fname', 'item_id']].values]
+        pass
+    
     def get_paths_from_names(self, fnames):
         paths = []
         for fname in fnames:
             paths.append(self.data[self.data.fname == fname].iloc[0].path)
         return paths
-        
-    # for showing
-    def head(self, n=3):
-        return self.data.head(n)
+
+
+# ========================================================================
+
+class TikiEmbeddingDataset(Dataset):
     
-    def info(self):
-        pass
+    def __init__(self, npy_path=None, features=None):
+        assert npy_path is not None or features is not None, "Data not provided!"
+        self.data = np.load(npy_path) if npy_path is not None else features
+        
+    def __len__(self):
+        return len(self.data)
+    
+    def __getitem__(self, idx):
+        if torch.is_tensor(idx):
+            idx = idx.tolist()
+        return {'image' : torch.from_numpy(self.data[idx, :])}
+
+    
+# ========================================================================
+
+class AutomaticTestDataset(Dataset):
+    
+    def __init__(self, image_paths, transform=None):
+        self.image_paths = image_paths
+        self.transform = transform
+        
+    def __len__(self):
+        return len(self.image_paths)
+    
+    def __getitem__(self, idx):
+        if torch.is_tensor(idx):
+            idx = idx.tolist()
+        img = Image.open(self.image_paths[idx]).convert('RGB')
+        if self.transform:
+            img = self.transform(img)
+        return {'image' : img}

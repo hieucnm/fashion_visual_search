@@ -47,7 +47,6 @@ def show_result(mAP, cmc_scores):
     pass
 
 
-
 def restrict_ordinate(x, max_x):
     x = max(int(x),0)
     x = min(int(x), max_x)

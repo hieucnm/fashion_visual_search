@@ -3,11 +3,9 @@ from __future__ import absolute_import
 import numpy as np
 import torch
 import sklearn.metrics.pairwise as metrics
-from sklearn.metrics.pairwise import euclidean_distances, cosine_similarity
 
 def euclidean_distance(x, y):
     return torch.Tensor(metrics.euclidean_distances(x,y))
-
 
 def jaccard_similarity(x, y):
     m, n = len(x), len(y)

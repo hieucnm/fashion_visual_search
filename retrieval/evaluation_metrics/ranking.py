@@ -5,12 +5,8 @@ import numpy as np
 import torch
 from sklearn.metrics import average_precision_score
 
-import os
-import sys
-sys.path.append(os.getcwd() + '../')
-sys.path.append('/content/drive/My Drive/image_similarity/retrieval')
 from retrieval.utils import to_numpy, to_torch
-from evaluation_metrics import *
+from retrieval.evaluation_metrics import *
 
 VERY_LARGE_DISTANCE = 1e6
 VERY_SMALL_SIMILARITY = -1

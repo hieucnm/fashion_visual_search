@@ -1,26 +1,19 @@
 from __future__ import print_function, absolute_import
-import time
+
+from retrieval.utils import flip_horizonal, show_result
+from retrieval.evaluation_metrics import *
+
 from collections import OrderedDict
-
-import os
-import sys
-sys.path.append('/')
-
-from evaluation_metrics import *
-from utils.meters import AverageMeter
-from utils import flip_horizonal, show_result
-
 import numpy as np
-from sklearn.metrics import *
 import torch
 from torch.autograd import Variable
 import torch.nn.functional as F
 
+from tqdm._tqdm import tqdm
 # from pytorch_metric_learning.utils import AccuracyCalculator
 
        
 # ====================================================================================
-
 # ====================================================================================
 
 class BaseEvaluator(object):
@@ -94,15 +87,15 @@ class EmbeddingEvaluator(BaseEvaluator):
         return query_embeds, gallery_embeds, query_ids, gallery_ids
 
     
-    def evaluate(self, data_loader, **kwords):
+    def evaluate(self, data_loader, **kwargs):
         """
             data_loader: batch generator of validset
             query_ids: a list of (fnames, iid), maybe 20% part of validset that be used to query
             gallery_ids: a list of (fnames, iid), 80% remain of validset that be used to find best match
         
         """
-        query = kwords['query']
-        gallery = kwords['gallery']
+        query = kwargs['query']
+        gallery = kwargs['gallery']
         
         embeddings, _ = self._forward_dataloader(data_loader)
         query_embeds, gallery_embeds, query_ids, gallery_ids = self.extract_query_gallery(embeddings, query, gallery)
@@ -114,8 +107,6 @@ class EmbeddingEvaluator(BaseEvaluator):
         
         return cmc_scores[0]
 
-    
-    
 # ====================================================================================
 
 class ClassifyingEvaluator(BaseEvaluator):
@@ -127,25 +118,20 @@ class ClassifyingEvaluator(BaseEvaluator):
     
     
     def _forward_dataloader(self, data_loader):
-        self.model.eval()
         predicts, targets = [], []
-
-        with torch.no_grad():
-            for inputs in data_loader:
-                
-                imgs, labels = self._parse_data(inputs)
-                outputs = self._forward(imgs)
-                labels  = labels.cpu().numpy()
-
-                predicts.append(outputs)
-                targets.append(labels)
-        
+        for inputs in data_loader:
+            imgs, labels = self._parse_data(inputs)
+            outputs = self._forward(imgs)
+            labels  = labels.cpu().numpy()
+            predicts.append(outputs)
+            targets.append(labels)
         return np.concatenate(predicts), np.concatenate(targets)
         
     
     def _forward(self, imgs):
+        self.model.eval()
         with torch.no_grad():
-            outputs = self.model(Variable(imgs)).softmax(dim=1).argmax(dim=1).cpu().numpy()
+            outputs = self.model(imgs).softmax(dim=1).argmax(dim=1).cpu().numpy()
         return outputs
         
     
@@ -153,32 +139,27 @@ class ClassifyingEvaluator(BaseEvaluator):
         predicts, targets = self._forward_dataloader(data_loader)
         return accuracy_score(targets, predicts)
 
-    
+
 # ====================================================================================
 
 class UncertaintyClassifyingEvaluator(ClassifyingEvaluator):
     
     def _forward_dataloader(self, data_loader):
-        self.model.eval()
         predicts, targets = [], []
-
-        with torch.no_grad():
-            for inputs in data_loader:
-                
-                imgs, labels = self._parse_data(inputs)
-                outputs, _ = self._forward(imgs)
-                labels  = labels.cpu().numpy()
-
-                predicts.append(outputs)
-                targets.append(labels)
-        
+        for inputs in data_loader:
+            imgs, labels = self._parse_data(inputs)
+            outputs, _ = self._forward(imgs)
+            labels  = labels.cpu().numpy()
+            predicts.append(outputs)
+            targets.append(labels)
         return np.concatenate(predicts), np.concatenate(targets)
 
     
     def _forward(self, imgs):
         self.model.eval()
         with torch.no_grad():
-            outputs = self.model(Variable(imgs))
+            outputs = self.model(imgs)
             uncertainties = outputs[:,-1].pow(2).cpu().numpy()
             outputs = outputs[:,:-1].softmax(dim=1).argmax(dim=1).cpu().numpy()
         return outputs, uncertainties
+

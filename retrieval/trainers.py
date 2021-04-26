@@ -3,15 +3,13 @@ import time
 
 import torch
 from torch.autograd import Variable
-from utils.meters import AverageMeter
+from .utils.meters import AverageMeter
 from sklearn.metrics import accuracy_score
 from pytorch_metric_learning import losses
 # from pytorch_metric_learning.utils import AccuracyCalculator
 from pytorch_metric_learning import miners, losses
 
-import sys
-sys.path.append('/')
-from evaluation_metrics import topk_accuracy, cosine_similarity, euclidean_distances
+from retrieval.evaluation_metrics import topk_accuracy, cosine_similarity, euclidean_distance
 
 # ==================================================
 
