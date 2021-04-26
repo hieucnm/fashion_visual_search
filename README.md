@@ -24,9 +24,19 @@ Object detection is one of the most interesting task in computer vision. It not 
 In this project, I demonstrated a simple visual search system in e-commerce, using deep metric learning and object detection models. For the sake of demonstration, I used datasets consisting of clothing items only, other products might be applied similarly. I trained a DML model using a classification-based method. The training codes were forked and edited from [this repo](https://github.com/azgo14/classification_metric_learning). Moreover, to handle the noise cases mentioned above, I also employ a pretrained yolo_v3 model, which were trained on fashion items from [this repo](https://github.com/simaiden/Clothing-Detection) . There are hence 2 types of searching results: image-based and item-based. You can see some screenshots below.
 
 
-# 2. Datasets
-- Để train và đánh giá, tui dùng bộ public Deep Fashion. Tui cũng đã tìm nhiều bộ khác nhưng số class ít và có vấn đề bla bla
-(Kẻ cái bảng các bộ data và mô tả ở đây)
+# 2. Dataset
+
+To train and evaluate this model, I used the public Inshop Deep Fashion dataset. I also worked around on other datasets but they are very noisy and not compatible with each other in the class definition. The numbers of instances and classes in each dataset are given below.
+
+|                   	| # classes	| # instances 	|
+|-------------------	| --------	| --------	|
+| Training		| 11201	| 70109	|
+| Gallery		| 2801		| 8922		|
+| Query		| 2801		| 8780		|
+
+
+
+
 - Tui dùng nhiêu đây class nè, tui cũng map các class output của pretrained YoloV3 sang các class của bộ Deep Fashion cho đồng nhất.
 (Kẻ bảng các class và số sample mỗi class ra)
 - Để demo, tui và partners collect data từ một sàn e-commerce, thu đc nhiêu đây ảnh, và nhiều đây object nè
