@@ -60,20 +60,24 @@ Firstly, I evaluated the two deep metric learning models: one outputs 256-d embe
 How I applied YoloV3: I used YoloV3 to pre-extract bounding boxes of all images in the gallery and saved them. When searching, apart from returning top-k items having the most similar images, the system also returns items having the most similar objects (which are images too and were saved in advance) to the object in the query extracted by YoloV3. Hence, as I said before, the results have two levels: image-based and item-based. The larger the cosine similarity between the corresponding embedding vectors, the more similar the images are.
 
 A small problem: YoloV3 or other object detectors sometimes detect multiple classes of the same object. To handle this issue, I map the classes of the YoloV3 to one of two pre-defined superclasses, which I call positions: *upper* and *lower*. For example, if the YoloV3 says that there is a *short sleeve top*, a *short sleeve outwears* and a *sling* in an image, then the system only considers the one having the highest confidence score. This method turned out another benefit that, the system will not return an upper object when the query image contains a lower object and vice versa.
-The mapper is given below:
 
+The mapper is given below:
 - upper: short-sleeve-top, long-sleeve-top, long-sleeve-outwear, short-sleeve-outwear, long-sleeve-dress, short-sleeve-dress, sling-dress, vest-dress, vest, sling
 - lower: trousers, shorts, skirt
 
 Here are some results of the live testset:
 
 
-
 # 4. How to run
 1. Git clone
 2. Install requirements
-3. Tải weights yolov3, weights model dml và pre-extracted embedding
-4. chạy notebook
+3. Tải weights yolov3: chạy download_weights.sh trong detector/yolo/weights
+4. Tải pre-extract embedding tại link drive, đặt trong folder datasets/database
+5. Tải data tiki tại link drive, đặt trong folder datasets
+6. Chạy notebook Demos
+
+Optional:
+- Cân nhắc đăng các notebook khác để làm màu, hoặc là khỏi
 
 
 
