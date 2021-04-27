@@ -57,28 +57,16 @@ Firstly, I evaluated the two deep metric learning models: one outputs 256-d embe
 | Inference time 	| 22 ms	| 21 ms	|
 | Search time	 	| 		|	 	|
 
+How I applied YoloV3: I used YoloV3 to pre-extract bounding boxes of all images in the gallery and saved them. When searching, apart from returning top-k items having the most similar images, the system also returns items having the most similar objects (which are images too and were saved in advance) to the object in the query extracted by YoloV3. Hence, as I said before, the results have two levels: image-based and item-based. The larger the cosine similarity between the corresponding embedding vectors, the more similar the images are.
 
+A small problem: YoloV3 or other object detectors sometimes detect multiple classes of the same object. To handle this issue, I map the classes of the YoloV3 to one of two pre-defined superclasses, which I call positions: *upper* and *lower*. For example, if the YoloV3 says that there is a *short sleeve top*, a *short sleeve outwears* and a *sling* in an image, then the system only considers the one having the highest confidence score. This method turned out another benefit that, the system will not return an upper object when the query image contains a lower object and vice versa.
+The mapper is given below:
 
-- Tui apply yolo vào như nào ? Thì tui làm bằng cách pre-extract hết các object của từng ảnh trong gallery, lưu xuống. Khi search, tui lại extract object trong ảnh query, rồi tìm most similar object trong gallery đã extract sẵn ở trên. Vì yolo hay các model object detection có thể detect trùng object, nên tui handle bằng cách chỉ giữ lại 1 object cho từng vị trí trong 3 vị trí: upper, lower và full-body. For example, yolo detect được trong 1 ảnh query có 2 object là áo abc và áo xyz, thì tui chỉ giữ 1 cái có confidence score cao nhất thôi. Output class của pretrained yolov3, được tui mapping như sau:
+- upper: short-sleeve-top, long-sleeve-top, long-sleeve-outwear, short-sleeve-outwear, long-sleeve-dress, short-sleeve-dress, sling-dress, vest-dress, vest, sling
+- lower: trousers, shorts, skirt
 
-position_dict = {
-        'short-sleeve-top' : 'is_upper',
-        'long-sleeve-top' : 'is_upper',
-        'long-sleeve-outwear' : 'is_upper', 
-        'short-sleeve-outwear' : 'is_upper', 
-        'long-sleeve-dress' : 'is_upper', 
-        'short-sleeve-dress' : 'is_upper', 
-        'sling-dress' : 'is_upper', 
-        'vest-dress' : 'is_upper', 
-        'vest' : 'is_upper', 
-        'sling' : 'is_upper',
+Here are some results of the live testset:
 
-        'trousers' : 'is_lower',
-        'shorts' : 'is_lower',
-        'skirt' : 'is_lower',
-    }
-   
-- Và đây là vài ảnh demo trên tập online test nè : ...
 
 
 # 4. How to run
