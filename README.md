@@ -26,7 +26,14 @@ In this project, I demonstrated a simple visual search system in e-commerce, usi
 
 # 2. Dataset
 
-To train and evaluate this model, I used the public Inshop Deep Fashion dataset. I also worked around on other datasets but they are very noisy and not compatible with each other in the class definition. The numbers of instances and classes in each dataset are given below.
+In this project, I combined the 2 benchmarks: [Inshop Deep Fashion dataset](http://mmlab.ie.cuhk.edu.hk/projects/DeepFashion/InShopRetrieval.html) and [Street2Shop dataset](http://www.tamaraberg.com/street2shop/). I also worked around on other datasets but they are very noisy and not compatible with each other in the class definition. The numbers of instances and classes in each dataset are given below:
+
+|                   	| # classes	| # instances 	|
+|-------------------	| --------	| --------	|
+| Deep Fashion		| 7982		| 52712	|
+| Street2Shop		| 6128		| 39985	|
+
+For stability, I kept only the classes having at least 2 images and at most 30 images in each dataset. After filtering and merging, I applied a random 80-20 train-validation split on the classes. In the validation set,  each image in each class was randomly chosen as a gallery or a query one at the probability of 50%. The desired distribution is given below:
 
 |                   	| # classes	| # instances 	|
 |-------------------	| --------	| --------	|
@@ -35,13 +42,46 @@ To train and evaluate this model, I used the public Inshop Deep Fashion dataset.
 | Query		| 2801		| 8780		|
 
 
+- To live demo (with no labels),  my partners and I collected data from an Vietnamese e-commerce website, and got 28165 images of 8561 different clothing items. You can find them [here](https://drive.google.com/drive/folders/15aLp2AtTD6okkKgx1cMEIyx6J7PGE8aj?usp=sharing)
 
 
-- Tui dùng nhiêu đây class nè, tui cũng map các class output của pretrained YoloV3 sang các class của bộ Deep Fashion cho đồng nhất.
-(Kẻ bảng các class và số sample mỗi class ra)
-- Để demo, tui và partners collect data từ một sàn e-commerce, thu đc nhiêu đây ảnh, và nhiều đây object nè
+# 3. Result
 
-# 3. How to run
+Firstly, I evaluated the two deep metric learning models: one outputs 256-d embedding vectors and the other outputs 2048-d embedding vectors. Both models were trained in 30 epochs, starting learning rate is 0.01, batch size is 64, decay learning rate by a gamma of 0.1 after every 10 epochs. The whole system were run on a machine including 4 Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz, 128GB RAM, and one GeForce GTX 1080Ti 12GB.
+| 			| 256-d	| 2048-d 	|
+|-------------		| --------	| --------	|
+| R@1			| 78.76	| 89.28	|
+| R@5			| 85.27	| 95.93	|
+| R@10			| 88.04	| 97.76	|
+| R@100		| 92.41	| 99.46	|
+| Inference time 	| 22 ms	| 21 ms	|
+| Search time	 	| 		|	 	|
+
+
+
+- Tui apply yolo vào như nào ? Thì tui làm bằng cách pre-extract hết các object của từng ảnh trong gallery, lưu xuống. Khi search, tui lại extract object trong ảnh query, rồi tìm most similar object trong gallery đã extract sẵn ở trên. Vì yolo hay các model object detection có thể detect trùng object, nên tui handle bằng cách chỉ giữ lại 1 object cho từng vị trí trong 3 vị trí: upper, lower và full-body. For example, yolo detect được trong 1 ảnh query có 2 object là áo abc và áo xyz, thì tui chỉ giữ 1 cái có confidence score cao nhất thôi. Output class của pretrained yolov3, được tui mapping như sau:
+
+position_dict = {
+        'short-sleeve-top' : 'is_upper',
+        'long-sleeve-top' : 'is_upper',
+        'long-sleeve-outwear' : 'is_upper', 
+        'short-sleeve-outwear' : 'is_upper', 
+        'long-sleeve-dress' : 'is_upper', 
+        'short-sleeve-dress' : 'is_upper', 
+        'sling-dress' : 'is_upper', 
+        'vest-dress' : 'is_upper', 
+        'vest' : 'is_upper', 
+        'sling' : 'is_upper',
+
+        'trousers' : 'is_lower',
+        'shorts' : 'is_lower',
+        'skirt' : 'is_lower',
+    }
+   
+- Và đây là vài ảnh demo trên tập online test nè : ...
+
+
+# 4. How to run
 1. Git clone
 2. Install requirements
 3. Tải weights yolov3, weights model dml và pre-extracted embedding
