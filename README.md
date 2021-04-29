@@ -13,7 +13,7 @@ Visual Search is the process of searching for something given images. In online 
 <figure>
     <img src='static/introduction.jpeg' />
     <font size="2">
-    <figcaption> How visual searching work in e-commerce <a href= "https://medium.com/@virtua/visual-search-in-e-commerce-41ecf52b66d2">
+    <figcaption> How visual searching work in e-commerce <a href= "https://medium.com/@virtua/visual-search-in-e-commerce-41ecf52b66d2"></a>
     </figcaption>
     </font>
 </figure>
