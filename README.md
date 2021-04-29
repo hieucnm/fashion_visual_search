@@ -10,13 +10,10 @@
 
 Visual Search is the process of searching for something given images. In online shopping, imagine that we can search for a product just by capturing a photo of it and send to the system (for example, a mobile application), without typing in the description of that one, or even sometimes we cannot describe it correctly. Visual search is the future of e-commerce. Many companies applied visual search in their products, such as Shopee, Lazada, Amazon, and Pinterest, too.
 
-<figure>
-    <img src='static/introduction.jpeg' />
-    <font size="2">
-    <figcaption> How visual searching work in e-commerce <a href= "https://medium.com/@virtua/visual-search-in-e-commerce-41ecf52b66d2"></a>
-    </figcaption>
-    </font>
-</figure>
+![](static/introduction.jpeg)
+<div align="center"> 
+    How Visual Search works in e-commerce ([Source](https://medium.com/@virtua/visual-search-in-e-commerce-41ecf52b66d2))
+</div>
 
 
 ## Deep Metric Learning
