@@ -10,8 +10,7 @@
 
 Visual Search is the process of searching for something given images. In online shopping, imagine that we can search for a product just by capturing a photo of it and send to the system (for example, a mobile application), without typing in the description of that one, or even sometimes we cannot describe it correctly. Visual search is the future of e-commerce. Many companies applied visual search in their products, such as Shopee, Lazada, Amazon, and Pinterest, too.
 
-![](static/introduction.jpeg)
-How visual searching work in e-commerce ([Source](https://medium.com/@virtua/visual-search-in-e-commerce-41ecf52b66d2))
+![alttext](https://miro.medium.com/max/2400/1*ttvy5t_w6ngO2LvUdtH6EQ.jpeg "How visual searching work in e-commerce")
 
 ## Deep Metric Learning
 Deep Metric Learning (DML) aims to learn a function mapping images, often in the shape of 3D arrays, into a one-dimension feature space. The learnt function should output low-distance feature vectors with respect to visually similar input images, and vice versa. Classification-based losses are usually used to train a DML model from scratch before switching to time-consuming metric learning losses [1](https://arxiv.org/abs/1811.12649). Hence, for the purpose of demo, here I use a classification-based training method [in this paper](https://arxiv.org/abs/1811.12649) to train my model.
@@ -55,9 +54,9 @@ Firstly, I evaluated the two deep metric learning models: one outputs 256-d embe
 | R@10			| 88.04	| 97.76	|
 | R@100		| 92.41	| 99.46	|
 | Inference time 	| 22 ms	| 21 ms	|
-| Search time	 	| 		|	 	|
+| Search time	 	| 0.15 s	| 0.9 s 	|
 
-How I applied YoloV3: I used YoloV3 to pre-extract bounding boxes of all images in the gallery and saved them. When searching, apart from returning top-k items having the most similar images, the system also returns items having the most similar objects (which are images too and were saved in advance) to the object in the query extracted by YoloV3. Hence, as I said before, the results have two levels: image-based and item-based. The larger the cosine similarity between the corresponding embedding vectors, the more similar the images are.
+How I applied YoloV3: I used YoloV3 to pre-extract bounding boxes of all images in the gallery and saved them. When searching, apart from returning top-k items having the most similar images, the system also returns items having the most similar objects (which are images too and were saved in advance) to the object in the query extracted by YoloV3. Hence, as I said before, the results have two levels: image-based and item-based. The smaller the cosine distance between the corresponding embedding vectors, the more similar the images are.
 
 A small problem: YoloV3 or other object detectors sometimes detect multiple classes of the same object. To handle this issue, I map the classes of the YoloV3 to one of two pre-defined superclasses, which I call positions: *upper* and *lower*. For example, if the YoloV3 says that there is a *short sleeve top*, a *short sleeve outwears* and a *sling* in an image, then the system only considers the one having the highest confidence score. This method turned out another benefit that, the system will not return an upper object when the query image contains a lower object and vice versa.
 
