@@ -67,6 +67,11 @@ The mapper is given below:
 - lower: trousers, shorts, skirt
 
 Here are some results of the live testset:
+Example 1:
+![](static/example1.png)
+
+Example 2:
+![](static/example2.png)
 
 
 # 4. How to run
