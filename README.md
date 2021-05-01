@@ -76,15 +76,21 @@ Example 2:
 
 
 # 4. How to run
-1. Git clone
-2. Install requirements
-3. Tải weights yolov3: chạy download_weights.sh trong detector/yolo/weights
-4. Tải pre-extract embedding tại link drive, đặt trong folder datasets/database
-5. Tải data tiki tại link drive, đặt trong folder datasets
-6. Chạy notebook Demos
+1. Setup environment
+```sh
+# Create conda environment
+conda create --name fashion_visual_search python=3.7 pip ipykernel
+conda activate fashion_visual_search
+python -m ipykernel install --user --name=fashion_visual_search
 
-Optional:
-- Cân nhắc đăng các notebook khác để làm màu, hoặc là khỏi
+# Install all requirements
+pip install -r requirements.txt
+```
 
+
+2. Download weights of the pretrained YoloV3 model at this [drive](https://drive.google.com/file/d/1P2BtqrIKbz2Dtp3qfPCkvp16bj9xSVIw/view?usp=sharing)  and put it into folder detector/yolo/weights
+3. Download pre-extracted databases of the live testset at this [drive](https://drive.google.com/drive/folders/11j83EtIkTmxE2FN6pSvHPNAIytOSIGWu?usp=sharing), and put them into folder datasets/database
+4. Download the images of the live testset at this [drive](https://drive.google.com/drive/folders/15aLp2AtTD6okkKgx1cMEIyx6J7PGE8aj?usp=sharing) and put them into folder datasets/tiki
+5. Run the notebook Demo.ipynb, and the beginning you have to change the environment name to *fashion_visual_search* that you init above.
 
 
