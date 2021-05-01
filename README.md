@@ -48,7 +48,8 @@ For stability, I kept only the classes having at least 2 images and at most 30 i
 
 # 3. Result
 
-Firstly, I evaluated the two deep metric learning models: one outputs 256-d embedding vectors and the other outputs 2048-d embedding vectors. Both models were trained in 30 epochs, starting learning rate is 0.01, batch size is 64, decay learning rate by a gamma of 0.1 after every 10 epochs. The whole system were run on a machine including 4 Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz, 128GB RAM, and one GeForce GTX 1080Ti 12GB.
+Firstly, I evaluated the two deep metric learning models: one outputs 256-d embedding vectors and the other outputs 2048-d embedding vectors. Both models were trained in 30 epochs, starting learning rate is 0.01, batch size is 64, decay learning rate by a gamma of 0.1 after every 10 epochs. The whole system were run on a machine including 4 Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz, 128GB RAM, and one GeForce GTX 1080Ti 12GB. The result is given below:
+
 | 			| 256-d	| 2048-d 	|
 |-------------		| --------	| --------	|
 | R@1			| 78.76	| 89.28	|
@@ -88,8 +89,8 @@ pip install -r requirements.txt
 ```
 
 
-2. Download weights of the pretrained YoloV3 model at this [drive](https://drive.google.com/file/d/1P2BtqrIKbz2Dtp3qfPCkvp16bj9xSVIw/view?usp=sharing)  and put it into folder detector/yolo/weights
-3. Download pre-extracted databases of the live testset at this [drive](https://drive.google.com/drive/folders/11j83EtIkTmxE2FN6pSvHPNAIytOSIGWu?usp=sharing), and put them into folder datasets/database
-4. Download the images of the live testset at this [drive](https://drive.google.com/drive/folders/15aLp2AtTD6okkKgx1cMEIyx6J7PGE8aj?usp=sharing) and put them into folder datasets/tiki
+2. Download weights of the pretrained YoloV3 model at this [drive](https://drive.google.com/file/d/1P2BtqrIKbz2Dtp3qfPCkvp16bj9xSVIw/view?usp=sharing)  and put it into folder *detector/yolo/weights*
+3. Download pre-extracted databases of the live testset at this [drive](https://drive.google.com/drive/folders/11j83EtIkTmxE2FN6pSvHPNAIytOSIGWu?usp=sharing), and put them into folder *datasets/database*
+4. Download the images of the live testset at this [drive](https://drive.google.com/drive/folders/15aLp2AtTD6okkKgx1cMEIyx6J7PGE8aj?usp=sharing) and put them into folder *datasets/tiki*
 5. Run the notebook Demo.ipynb, in the beginning you have to change the environment of the notebook to *fashion_visual_search*, which you init above.
 6. Have fun.
