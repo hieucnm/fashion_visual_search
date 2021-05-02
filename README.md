@@ -15,14 +15,15 @@ Visual Search is the process of searching for something given images. In online 
 
 
 ## Deep Metric Learning
-Deep Metric Learning (DML) aims to learn a function mapping images, often in the shape of 3D arrays, into a one-dimension feature space. The learnt function should output low-distance feature vectors with respect to visually similar input images, and vice versa. Classification-based losses are usually used to train a DML model from scratch before switching to time-consuming metric learning losses [1](https://arxiv.org/abs/1811.12649). Hence, for the purpose of demo, here I use a classification-based training method [in this paper](https://arxiv.org/abs/1811.12649) to train my model.
+Deep Metric Learning (DML) aims to learn a function that maps images, often in the shape of 3D arrays, into a one-dimension feature space. The learned function should output low-distance feature vectors corresponding to visually similar input images, and vice versa. Classification-based losses are usually used to train a DML model from scratch before switching to time-consuming metric learning losses [1](https://arxiv.org/abs/1811.12649). Hence, to demonstrate, here I use a classification-based training method [	in this paper](https://arxiv.org/abs/1811.12649) to train my model.
+
 
 ## Object Detection
-Object detection is one of the most interesting task in computer vision. It not only detects the location of the objects in a given image, but also classify them into pre-defined categories. In real-life visual search, we may often deal with images containing so much background, and the results of the DML model consequencely could be bad. Taking out the main object in an image, which can be done by a good object detection, can help improve the searching results in these cases.
+Object detection is one of the most interesting tasks in computer vision. It not only detects the location of the objects in a given image but also classifies them into pre-defined categories. In real-life visual search, we may often deal with images containing so much background, and the results of the DML model consequently could be bad. Taking out the main object in an image, which can be done by good object detection, can help improve the searching results in these cases.
 
 ## This project
 
-In this project, I demonstrated a simple visual search system in e-commerce, using deep metric learning and object detection models. For the sake of demonstration, I used datasets consisting of clothing items only, other products might be applied similarly. I trained a DML model using a classification-based method. The training codes were forked and edited from [this repo](https://github.com/azgo14/classification_metric_learning). Moreover, to handle the noise cases mentioned above, I also employ a pretrained yolo_v3 model, which were trained on fashion items from [this repo](https://github.com/simaiden/Clothing-Detection) . There are hence 2 types of searching results: image-based and item-based. You can see some screenshots below.
+In this project, I demonstrated a simple visual search system in e-commerce, using deep metric learning and object detection models. For the sake of demonstration, I used datasets consisting of clothing items only, other products might be applied similarly. I trained a DML model using a classification-based method. The training codes were forked and edited from [this repo](https://github.com/azgo14/classification_metric_learning). Moreover, to handle the noise cases mentioned above, I also employ a pre-trained yolo_v3 model, which was trained on fashion items from [this repo](https://github.com/simaiden/Clothing-Detection). There are hence 2 types of searching results: image-based and item-based. You can see some screenshots below.
 
 
 # 2. Dataset
@@ -43,7 +44,7 @@ For stability, I kept only the classes having at least 2 images and at most 30 i
 | Query		| 2801		| 8780		|
 
 
-- To live demo (with no labels),  my partners and I collected data from an Vietnamese e-commerce website, and got 28165 images of 8561 different clothing items. You can find them [here](https://drive.google.com/drive/folders/15aLp2AtTD6okkKgx1cMEIyx6J7PGE8aj?usp=sharing)
+- To live demo (with no labels),  my partners and I collected data from a Vietnamese e-commerce website and got 28165 images of 8561 different clothing items. You can find them [here](https://drive.google.com/drive/folders/15aLp2AtTD6okkKgx1cMEIyx6J7PGE8aj?usp=sharing)
 
 
 # 3. Result
