@@ -92,6 +92,6 @@ pip install -r requirements.txt
 
 2. Download weights of the pretrained YoloV3 model at this [link](https://drive.google.com/file/d/1P2BtqrIKbz2Dtp3qfPCkvp16bj9xSVIw/view?usp=sharing)  and put it into folder *detector/yolo/weights*
 3. Download pre-extracted databases of the live testset at this [folder](https://drive.google.com/drive/folders/11j83EtIkTmxE2FN6pSvHPNAIytOSIGWu?usp=sharing), and put them into folder *datasets/database*
-4. Download the images of the live testset at this [folder](https://drive.google.com/drive/folders/15aLp2AtTD6okkKgx1cMEIyx6J7PGE8aj?usp=sharing) and put them into folder *datasets/tiki*
+4. Download the images of the live testset at this [folder](https://drive.google.com/drive/folders/1ZbHmBiB3hxI7Lv90bvHa3FC867DEsLVx?usp=sharing) and put them into folder *datasets/tiki*
 5. Run the notebook Demo.ipynb, in the beginning you have to change the environment of the notebook to *fashion_visual_search*, which you init above.
 6. Have fun.
